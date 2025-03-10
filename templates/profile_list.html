@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>do you know them?</h1>
+    {% if profile %}
+    {% for items in profile %}
+   
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{% static 'images/profile.jpg' %}" class="img-fluid rounded-start" alt="Profile">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"> Username: {{items.user}}<br/></h5>
+              <p class="card-text"> Link: @{{items.user|lower}}<br/></p>
+              <p class="card-text"><small class="text-body-secondary"> Last Updated: {{items.date_modified}}</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    {% endif %}
+{% endblock %}
+    

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% if profile %}
+
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{% static 'images/profile.jpg' %}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{profile.user.username}}</h5>
+          {% endif %}
+          <p class="card-text">@{{profile.user.username|lower}}</p>
+          <p><form method="POST">
+            {% csrf_token %}
+            {% if profile in user.profile.follows.all %}
+            <button class="btn btn-outline-danger" name="follow" value="unfollow" type="submit">Unfollow</button>
+            {% else %}
+            <button class="btn btn-outline-success" name="follow" value="follow" type="submit">Follow</button>
+             {% endif %} 
+          </form></p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+      
+  <strong>Follows</strong><br/>
+      {% for following in profile.follows.all %}
+    <a href="{% url 'profile' following.user.id %}">{{following}}</a><br/>
+    {% endfor %}
+      
+
+    <strong>Followed by</strong><br/>
+    {% for following in profile.followed_by.all %}
+    <a href="{% url 'profile' following.user.id %}">{{following}}</a><br/>
+    {% endfor %}
+
+    {% if thoughts %}
+    {% for thought in thoughts %}
+    <div class="alert alert-dark" role="alert">
+        {{thought}}
+      </div>
+        {% endfor %}
+        {% endif %}
+
+
+{% endblock %}
+    
