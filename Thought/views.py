@@ -77,4 +77,16 @@ def register_user(request):
     return render(request, 'register.html', {'form':form})
    
 
-   
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id= request.user.id)
+        form = SignUpForm(request.POST or None, instance= current_user)
+        if form.is_valid():
+            form.save()
+            login(request, current_user)
+            messages.success(request, 'Your info has been updated!')
+            return redirect('home')
+        return render(request, 'update_user.html', {'form':form})
+    else:
+        messages.sucess(request,'You must be logged in to access this page.')
+        return redirect('home')

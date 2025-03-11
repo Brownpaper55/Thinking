@@ -24,7 +24,7 @@
             <button class="btn btn-outline-success" name="follow" value="follow" type="submit">Follow</button>
              {% endif %} 
           </form></p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago<span>{% if request.user.id == profile.user.id %} &nbsp;<a href="{% url 'update_user' %}" class="btn btn-outline-secondary">Update profile</a>{% endif %}</span></small></p>
         </div>
       </div>
     </div>
