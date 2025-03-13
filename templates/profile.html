@@ -9,7 +9,11 @@
 <div class="card mb-3" style="max-width: 540px;">
     <div class="row g-0">
       <div class="col-md-4">
+        {% if profile.profile_image %}
+        <img src="{{profile.profile_image.url}}" class="w-100 h-100 object-fit-cover" alt="...">
+        {% else %}
         <img src="{% static 'images/profile.jpg' %}" class="img-fluid rounded-start" alt="...">
+        {% endif %}
       </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -24,7 +28,8 @@
             <button class="btn btn-outline-success" name="follow" value="follow" type="submit">Follow</button>
              {% endif %} 
           </form></p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago<span>{% if request.user.id == profile.user.id %} &nbsp;<a href="{% url 'update_user' %}" class="btn btn-outline-secondary">Update profile</a>{% endif %}</span></small></p>
+          {% if request.user.id == profile.user.id %}<a href="{% url 'update_user' %}" class="btn btn-outline-secondary">Update profile</a>{% endif %}
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
       </div>
     </div>
