@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Profile, Thoughts
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import ThoughtForm, SignUpForm
+from .forms import ThoughtForm, SignUpForm, Profile_picForm
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
@@ -80,13 +80,17 @@ def register_user(request):
 def update_user(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id= request.user.id)
-        form = SignUpForm(request.POST or None, instance= current_user)
-        if form.is_valid():
+        image_user = Profile.objects.get(user_id = request.user.id)
+        print(request.user.id)
+        form = SignUpForm(request.POST or None, request.FILES or None, instance= current_user)
+        P_image = Profile_picForm(request.POST or None, request.FILES or None, instance = image_user)
+        if form.is_valid() and P_image.is_valid():
             form.save()
+            P_image.save()
             login(request, current_user)
             messages.success(request, 'Your info has been updated!')
             return redirect('home')
-        return render(request, 'update_user.html', {'form':form})
+        return render(request, 'update_user.html', {'form':form, 'image':P_image})
     else:
-        messages.sucess(request,'You must be logged in to access this page.')
+        messages.success(request,'You must be logged in to access this page.')
         return redirect('home')
